@@ -47,71 +47,71 @@ import random
 # # ----- Exercise 2: Nequi -----
 
 
-def cards_information():
-    global total_money, a, loc, amount
-    while True:
-        try:
-            amount = int(input("\nEnter amount of cards: "))
-            break
-        except ValueError:
-            print("----- Only can enter int numbers -----")
-    for i in range(1, amount+1):  
-        card_number = random.randint(1000000, 9999999)
-        pass_number = random.randint(1000, 9999)
-        total_money = random.randint(0, 2000000)
-        card_data = {f"card_{i}":card_number,
-                    f"pin_{i}":pass_number,
-                    f"money_{i}":total_money}
-        loc |= card_data
-    print(f"- Cards information: {loc}")
+# def cards_information():
+#     global total_money, a, loc, amount
+#     while True:
+#         try:
+#             amount = int(input("\nEnter amount of cards: "))
+#             break
+#         except ValueError:
+#             print("----- Only can enter int numbers -----")
+#     for i in range(1, amount+1):  
+#         card_number = random.randint(1000000, 9999999)
+#         pass_number = random.randint(1000, 9999)
+#         total_money = random.randint(0, 2000000)
+#         card_data = {f"card_{i}":card_number,
+#                     f"pin_{i}":pass_number,
+#                     f"money_{i}":total_money}
+#         loc |= card_data
+#     print(f"- Cards information: {loc}")
 
 
-def input_card():
-    global card, a
-    while True:
-        try:
-            card = int(input("\nEntry your card number: "))
-            while card not in loc.values():
-                card = int(input("- Not found, try again: "))
-            break
-        except ValueError:
-            print("----- Only can enter int numbers -----")
+# def input_card():
+#     global card, a
+#     while True:
+#         try:
+#             card = int(input("\nEntry your card number: "))
+#             while card not in loc.values():
+#                 card = int(input("- Not found, try again: "))
+#             break
+#         except ValueError:
+#             print("----- Only can enter int numbers -----")
     
         
-def input_pin():
-    global a
-    for a in range(1, amount+1):
-        while card == loc[f"card_{a}"]:
-            try:
-                pin = int(input("\nEntry your card PIN: "))
-                while pin != loc[f"pin_{a}"]:
-                    pin = int(input("- Incorrect PIN, try again: "))
-                break
-            except ValueError:
-                print("----- Only can enter int numbers -----")
-    print(f"\n----- You have: $", loc[f"money_{a}"], "-----")
+# def input_pin():
+#     global a
+#     for a in range(1, amount+1):
+#         while card == loc[f"card_{a}"]:
+#             try:
+#                 pin = int(input("\nEntry your card PIN: "))
+#                 while pin != loc[f"pin_{a}"]:
+#                     pin = int(input("- Incorrect PIN, try again: "))
+#                 break
+#             except ValueError:
+#                 print("----- Only can enter int numbers -----")
+#     print(f"\n----- You have: $", loc[f"money_{a}"], "-----")
 
 
-def withdraw_money():
-    if loc[f"money_{a}"] > 10000:
-        while True:
-            try:
-                money = int(input("\nEntry money to withdraw: "))
-                while money%10000 != 0 or money > loc[f"money_{a}"]:
-                    money = int(input("- Invalid amount, try again: "))
-                print(f"""
-You have successfully withdrawn: $ {money}
-- Now you have left: $""", loc[f"money_{a}"]-money)
-                break
-            except ValueError:
-                print("----- Only can enter int numbers -----")
-    else:
-        print("- Not enough balance to make a withdraw")
+# def withdraw_money():
+#     if loc[f"money_{a}"] > 10000:
+#         while True:
+#             try:
+#                 money = int(input("\nEntry money to withdraw: "))
+#                 while money%10000 != 0 or money > loc[f"money_{a}"]:
+#                     money = int(input("- Invalid amount, try again: "))
+#                 print(f"""
+# You have successfully withdrawn: $ {money}
+# - Now you have left: $""", loc[f"money_{a}"]-money)
+#                 break
+#             except ValueError:
+#                 print("----- Only can enter int numbers -----")
+#     else:
+#         print("- Not enough balance to make a withdraw")
 
 
-if __name__ == '__main__':
-    loc = {}
-    cards_information()
-    input_card()
-    input_pin()
-    withdraw_money()
+# if __name__ == '__main__':
+#     loc = {}
+#     cards_information()
+#     input_card()
+#     input_pin()
+#     withdraw_money()

@@ -1,43 +1,43 @@
+import shutil
+
 def choice_selection():
     global choice
-    choice = input("\nEnter the option desired: ").capitalize()
     while True:
+        choice = input("\nEnter the option desired: ").capitalize()
         if choice in choices_list:
             break
         else:
-            choice = input("""
------ Only can enter 'C', 'R', 'U', 'D' or 'E' -----
-- Try again: """).capitalize()
-
+            print("----- Only can enter C, R, U, D or E -----")
+    return choice
 
 def create():
-    global name
+    global name, users_list, number
     while True:
         name = input("- Enter the name to create: ").capitalize()
         if name.isalpha():
             break
         else:
-            print("----- The name only can contain words -----\n")
+            print("  ----- The name only can contain WORDS -----")
     if name in users_list:
-        print(f"\n----- '{name}' was created again -----")
+        print(f"----- '{name}' was created again -----")
     else:
-        print(f"\n----- '{name}' was created successfully -----")
-    users_list.append(name)
+        print(f"----- '{name}' was created successfully -----")
+    number += 1
+    users_list |= {f"Name {number}":name}
 
 
 def read():
-    search = input("- Enter the name to search: ").capitalize()
-    if search in users_list:
-        position = users_list.index(search)
-        print(f"""
-- Hi, {users_list[position]}!
+    search = input("- Enter the name to search: ").capitalize()   
+    for position in range(1, number+1):
+        if search not in users_list.values():
+            return "----- Sorry, the name isn't in our database -----"
+        elif search == users_list[f"Name {position}"]:
+            return "  + Hi, {}!".format(users_list[f"Name {position}"])
 
------ List of names -----
-""")
-        for number, nigger in enumerate(users_list, 1):
-            print(f"- Name {number}: {nigger}")
-    else:
-        print("\n----- Sorry, the name isn't in our database -----")
+
+# ----- List of names -----""")
+#         for name_number, nigger in enumerate(users_list, 1):
+#             print(f"- Name {name_number}: {nigger}")
 
 
 def update():
@@ -48,25 +48,34 @@ def update():
             if new.isalpha():
                 break
             else:
-                print("----- The name only can contain words -----\n")
+                print("  ----- The name only can contain WORDS -----")
         position = users_list.index(update)
         users_list[position] = new
-        print(f"\n----- '{update}' was updated to '{new}' successfully -----")
+        print(f"----- '{update}' was updated to '{new}' successfully -----")
     else:
-        print("\n----- Sorry, the name isn't in our database -----")
+        print("----- Sorry, the name isn't in our database -----")
 
 
 def delete():
     delete = input("- Enter the name to delete: ").capitalize()
     if delete in users_list:
         users_list.remove(delete)
-        print(f"\n----- '{delete}' was deleted successfully -----")
+        print(f"----- '{delete}' was deleted successfully -----")
     else:
-        print("\n----- Sorry, the name isn't in our database -----")
+        print("----- Sorry, the name isn't in our database -----")
+
+
+def exit():
+    farewell = "See you space, cowboy..."
+    terminal_width, _ = shutil.get_terminal_size()
+    x = terminal_width - len(farewell)
+    print(" " * x, end="")
+    return farewell
 
 
 if __name__ == '__main__':
-    users_list = []
+    number = 0
+    users_list = {}
     choices_list = ["C", "R", "U", "D", "E"]
     print("""
 Welcome! What would you to like today?
@@ -76,15 +85,20 @@ Welcome! What would you to like today?
 - "D" to delete a user
 - "E" to exit""")
     while True:
-        choice_selection()
-        if choice == "C":
-            create()
-        elif choice == "R":
-            read()
-        elif choice == "U":
-            update()
-        elif choice == "D":
-            delete()
-        elif choice == "E":
-            print(" "*137, "See you space, cowboy...")
-            break
+        try:
+            choice_selection()
+            if choice == "C":
+                create()
+            elif choice == "R" and len(users_list) > 0:
+                print(read())
+            elif choice == "U" and len(users_list) > 0:
+                update()
+            elif choice == "D" and len(users_list) > 0:
+                delete()
+            elif choice == "E":
+                print(exit())
+                break
+            else:
+                print("- No user has registered yet")
+        except(EOFError, KeyboardInterrupt):
+            print("\n----- Error, rebooting system -----")
